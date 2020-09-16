@@ -30,7 +30,7 @@ csql -udba -c "alter table a drop column a;" ${DBNAME}
 
 csql -udba -c "alter table a alter column a set default 0;" ${DBNAME}
 
-#csql -udba -c "alter table a comment='new comment';" ${DBNAME}
+csql -udba -c "alter table a comment='new comment'" ${DBNAME}
 
 csql -udba -c "alter table a add constraint pk_a_a primary key(a);" ${DBNAME}
 csql -udba -c "alter table e drop constraint pk_a_a;" ${DBNAME}
