@@ -13,6 +13,7 @@ csql -udba -c "create table tbl_enc_aes (a int) encrypt=aes" ${DBNAME}
 csql -udba -c "create table tbl_enc_aria (a int) encrypt=aria" ${DBNAME}
 
 csql -udba -c "select class_name, tde_algorithm from db_class where class_name like 'tbl_%'" ${DBNAME}
+csql -udba -c "select class_name, tde_algorithm from _db_class where class_name like 'tbl_%'" ${DBNAME}
 
 cubrid server stop ${DBNAME}
 cubrid deletedb $DBNAME
