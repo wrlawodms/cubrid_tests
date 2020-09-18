@@ -14,7 +14,7 @@ echo "USINGCONF: $USINGCONF"
 echo "TEST: $TEST"
 echo ""
 
-set -x
+#set -x
 
 cubrid server stop ${DBNAME}
 
