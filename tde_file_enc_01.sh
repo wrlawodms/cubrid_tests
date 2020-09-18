@@ -11,8 +11,16 @@ echo "tde_trace_debug=1" >> $DBCONF
 
 cubrid server start $DBNAME
 
-csql -udba -c "create table $TBNAME (a char(20000)) encrypt" $DBNAME;
-csql -udba -c "insert into $TBNAME (a) values (' ')" $DBNAME;
+csql -udba -c "create table $TBNAME (a char(2000)) dont_reuse_oid encrypt" $DBNAME;
+
+for i in {1..5}
+do
+  csql -udba -c "insert into $TBNAME (a) values ('$i')" $DBNAME;
+done
+
+csql -udba -c "drop table $TBNAME" $DBNAME;
+
+csql -udba -c "create table $TBNAME (a char(2000)) encrypt" $DBNAME;
 
 cubrid server stop $DBNAME
 cubrid deletedb $DBNAME
