@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# SORT_PARAM test
+
 TBNAME=tbl_test
 SRC_TBNAME=tbl_test_src
 
@@ -21,10 +23,9 @@ cubrid server stop $DBNAME
 
 echo "tde_trace_debug=1" >> $DBCONF
 
-csql -udba -S -c "create index ${TBNAME}_idx on ${TBNAME} (a);" $DBNAME
-csql -udba -S -c "select * from ${TBNAME} order by b;" $DBNAME
-csql -udba -S -c "select avg(a), b from ${TBNAME} group by b;" $DBNAME
-csql -udba -S -c "select avg(a) over (partition by b) from ${TBNAME};" $DBNAME
-csql -udba -S -c "select avg(a), b from ${TBNAME} group by b;" $DBNAME
+csql -udba -S -c "select * from ${TBNAME} order by b;" $DBNAME                    # order by
+csql -udba -S -c "select avg(a), b from ${TBNAME} group by b;" $DBNAME            # group by
+csql -udba -S -c "select avg(a) over (partition by b) from ${TBNAME};" $DBNAME    # analytics
+csql -udba -S -c "create index ${TBNAME}_idx on ${TBNAME} (a);" $DBNAME           # load index
 
 cubrid deletedb $DBNAME
