@@ -1,7 +1,6 @@
 #!/bin/bash
 
 TBNAME=tbl_test
-SRC_TBNAME=tbl_test_src
 
 rm -rf $DBNAME
 mkdir $DBNAME
