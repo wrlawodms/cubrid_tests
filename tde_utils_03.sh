@@ -14,7 +14,6 @@ cd $DBNAME
 
 cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME en_US
 
-set -x
 # copy the key file to another directory
 mkdir $KEYS_PATH
 mv ${DBNAME}_keys ${KEYS_PATH}/
