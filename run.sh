@@ -2,6 +2,7 @@
 
 DBNAME=testdb
 DBCONF=$CUBRID_DATABASES/../conf/cubrid.conf
+DBLOG=$CUBRID/log
 USINGCONF=cubrid.conf
 TEST=$1
 
