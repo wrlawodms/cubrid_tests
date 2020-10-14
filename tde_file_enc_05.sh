@@ -7,7 +7,7 @@ cd $DBNAME
 cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=64M $DBNAME ko_KR.utf8
 
-echo "tde_trace_debug=1" >> $DBCONF
+echo "er_log_debug=1" >> $DBCONF
 
 cubrid server start $DBNAME
 SERVER_PID=`pgrep -u $USER -f "$DBNAME$"`
@@ -26,6 +26,9 @@ kill -9 $SERVER_PID
 sleep 2
 
 cubrid server start $DBNAME
-
 cubrid server stop $DBNAME
+
+cat $DB_SERVERLOG | grep "TDE:" | egrep -e "pgbuf_dealloc_page|pgbuf_set_tde_algorithm"
+# The number of "TDE: pgbuf_dealloc_page()" and "TDE: pgbuf_set_tde_algorithm(): ... tde_algorithm = NONE" 
+# must match.
 cubrid deletedb $DBNAME

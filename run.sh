@@ -3,6 +3,7 @@
 DBNAME=testdb
 DBCONF=$CUBRID_DATABASES/../conf/cubrid.conf
 DBLOG=$CUBRID/log
+DB_SERVERLOG=$DBLOG/server/${DBNAME}_latest.err
 USINGCONF=cubrid.conf
 TEST=$1
 

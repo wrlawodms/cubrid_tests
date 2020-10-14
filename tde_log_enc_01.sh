@@ -22,6 +22,6 @@ done
 
 csql -udba -S -c "insert into ${TBNAME}_big_enc (a) values(' ')" $DBNAME
 
-cat csql.err | egrep -A1 -e "tde_algorithm|logpb_append_next_record";
+cat csql.err | egrep -e "logpb_start_append|logpb_next_append_page";
 
 cubrid deletedb $DBNAME

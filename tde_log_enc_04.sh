@@ -17,7 +17,7 @@ csql -udba -S -c "create table ${TBNAME}_part (a int) encrypt partition by range
   (partition less_10 values less than (10), partition less_29 values less than (29));" $DBNAME
 csql -udba -S -c "insert into ${TBNAME}_part (a) values (5), (15), (25);" $DBNAME
 
-echo "tde_trace_debug=1" >> $DBCONF
+echo "er_log_debug=1" >> $DBCONF
 
 set -x
 csql -udba -S -c "insert into ${TBNAME} (a) values(3)" $DBNAME # RVHF_INSERT
@@ -63,13 +63,13 @@ csql -udba --no-auto-commit -c "\
   insert ${TBNAME}_uni (a) values(-1);rollback;\
   " $DBNAME # RVBT_MVCC_INSERT_OBJECT_UNQ, RVBT_RECORD_MODIFY_COMPENSATE
 
-
-
 cubrid server stop $DBNAME
 
 set +x
 
 cat csql.err | grep "prior_set_tde_encrypted";
+cat $DB_SERVERLOG | grep "prior_set_tde_encrypted";
+# must be able to see RVHF_MVCC_REDISTRIBUTE, RVHF_INSERT,RVHF_UPDATE, RVHF_DELETE, RVHF_INSERT_NEWHOME, RVOVF_NEWPAGE_INSERT, RVHF_PAGE_UPDATE, RVBT_COPYPAGE, RVBT_NON_MVCC_INSERT_OBJECT, RVBT_DELETE_OBJECT_PHYSICAL, RVHF_MVCC_INSERT, RVHF_UPDATE_NOTIFY_VACUUM, RVHF_MVCC_UPDATE_OVERFLOW, RVBT_MVCC_INSERT_OBJECT, RVBT_RECORD_MODIFY_UNDOREDO, RVBT_MVCC_INSERT_OBJECT_UNQ, RVBT_RECORD_MODIFY_COMPENSATE in prior_set_tde_encrypted(): rcvindex = XXX
 
 cubrid server stop $DBNAME
 cubrid deletedb $DBNAME

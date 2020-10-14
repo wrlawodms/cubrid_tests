@@ -16,8 +16,9 @@ echo "log_compress=0" >> $DBCONF
 
 csql -udba -S -c "insert into ${TBNAME}_enc (a) values ('TDE_TEST_ENCRYPT');" $DBNAME;
 
-set -x
-cat csql.err | grep "tde" # must match
-set +x
+cat csql.err | egrep -e "logpb_start_append|logpb_next_append_page"
+cat csql.err | egrep -e "logpb_writev_append_pages|logpb_write_page_to_disk" 
+# the logical page id of pages marked as encrypted and thet of the pages encrypted 
+# must match
 
 cubrid deletedb $DBNAME

@@ -14,7 +14,7 @@ csql -udba -S -c "create table ${TBNAME}_enc (a int) encrypt;" $DBNAME;
 csql -udba -S -c "insert into ${TBNAME} (a) values(3)" $DBNAME;
 csql -udba -S -c "insert into ${TBNAME}_enc (a) values(3)" $DBNAME;
 
-echo "tde_trace_debug=1" >> $DBCONF
+echo "er_log_debug=1" >> $DBCONF
 
 cubrid server start $DBNAME
 
@@ -25,5 +25,7 @@ csql -udba -c "select * from $TBNAME, ${TBNAME}_enc" $DBNAME;
 csql -udba -c "select a, (select a from ${TBNAME}_enc) as enc_a from $TBNAME" $DBNAME;
 
 cubrid server stop $DBNAME
+
+cat $DB_SERVERLOG | grep "TDE:" | egrep -e "includes_tde_algorithm "
 
 cubrid deletedb $DBNAME

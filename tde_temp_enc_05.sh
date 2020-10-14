@@ -16,7 +16,7 @@ csql -udba -c "create table ${SRC_TBNAME}_enc (a int, b int) encrypt;" $DBNAME;
 
 cubrid server stop $DBNAME
 
-echo "tde_trace_debug=1" >> $DBCONF
+echo "er_log_debug=1" >> $DBCONF
 
 cubrid server start $DBNAME
 
@@ -36,7 +36,8 @@ csql -udba -c "merge into ${TBNAME}_enc using ${SRC_TBNAME}_enc on ${TBNAME}_enc
 csql -udba -c "merge into ${TBNAME}_enc using ${SRC_TBNAME}_enc on ${TBNAME}_enc.a=${SRC_TBNAME}_enc.a when matched then update set ${TBNAME}_enc.b=${SRC_TBNAME}_enc.b;" $DBNAME;
 csql -udba -c "merge into ${TBNAME}_enc using ${SRC_TBNAME}_enc on ${TBNAME}_enc.a=${SRC_TBNAME}_enc.a when matched then update set ${TBNAME}_enc.b=${SRC_TBNAME}_enc.b when not matched then insert values (${SRC_TBNAME}_enc.a, ${SRC_TBNAME}_enc.b);" $DBNAME;
 
-
 cubrid server stop $DBNAME
+
+cat $DB_SERVERLOG | grep "TDE:" | egrep -e "includes_tde_algorithm "
 
 cubrid deletedb $DBNAME

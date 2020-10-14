@@ -7,7 +7,7 @@ cd $DBNAME
 cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=64M $DBNAME ko_KR.utf8
 
-echo "tde_trace_debug=1" >> $DBCONF
+echo "er_log_debug=1" >> $DBCONF
 
 cubrid server start $DBNAME
 

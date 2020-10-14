@@ -9,7 +9,7 @@ cubrid createdb --db-volume-size=128M --log-volume-size=64M $DBNAME ko_KR.utf8
 
 csql -udba -S -c "create table $TBNAME (a char(2000)) encrypt" $DBNAME;
 
-echo "tde_trace_debug=1" >> $DBCONF
+echo "er_log_debug=1" >> $DBCONF
 echo "log_trace_debug=1" >> $DBCONF
 
 cubrid server start $DBNAME

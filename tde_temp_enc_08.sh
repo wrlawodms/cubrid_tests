@@ -19,11 +19,15 @@ done
 
 cubrid server stop $DBNAME
 
-echo "tde_trace_debug=1" >> $DBCONF
+echo "er_log_debug=1" >> $DBCONF
 echo "file_logging_debug=1" >> $DBCONF
 
 csql -udba -S -c "create index ${TBNAME}_idx on ${TBNAME} (a);" $DBNAME | grep -A3 "file_apply_tde_algorithm"
 
 cat csql.err | grep -A3 "FILE file_create (SA_MODE): finished creating file."
+cat csql.err | grep "TDE:" | egrep -e "file_apply_tde_algorithm"
+# All the temp file created while building index
+# has to be encrypted.
+# the VFID printed file_log and the VFID in "TDE:" has to match, and the number of them has to match
 
 cubrid deletedb $DBNAME

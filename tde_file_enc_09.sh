@@ -18,7 +18,7 @@ ps aux | grep $SERVER_PID
 kill -9 $SERVER_PID
 sleep 2
 
-echo "tde_trace_debug=1" >> $DBCONF
+echo "er_log_debug=1" >> $DBCONF
 echo "log_trace_debug=1" >> $DBCONF
 
 cubrid server start $DBNAME

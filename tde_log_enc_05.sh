@@ -23,7 +23,7 @@ echo "delete ${TBNAME};" >> delete_index.sql
 csql -udba -i pre_build.sql $DBNAME # prepare to build a index
 
 cubrid server stop $DBNAME
-echo "tde_trace_debug=1" >> $DBCONF
+echo "er_log_debug=1" >> $DBCONF
 cubrid server start $DBNAME
 
 for i in {0..20} # one insertion is enough, but for inserting with building index (race)
@@ -43,6 +43,8 @@ csql -udba -i delete_index.sql $DBNAME # RVBT_NDRECORD_DEL
 
 cubrid server stop $DBNAME
 
-cat csql.err | egrep -e "RVBT_ONLINE_INDEX_UNDO_TRAN_INSERT|RVBT_ONLINE_INDEX_UNDO_TRAN_DELETE|RVBT_RECORD_MODIFY_NO_UNDO";
+cat csql.err | egrep "prior_set_tde_encrypted"
+cat $DB_SERVERLOG | grep "prior_set_tde_encrypted"
+# must be able to see RVBT_ONLINE_INDEX_UNDO_TRAN_INSERT, RVBT_ONLINE_INDEX_UNDO_TRAN_DELETE, RVBT_RECORD_MODIFY_NO_UNDO;
 
 cubrid deletedb $DBNAME
