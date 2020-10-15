@@ -21,6 +21,7 @@ echo ""
 cubrid server stop ${DBNAME}
 cubrid delete $DBNAME
 rm ${DBLOG}/${DBNAME}_*.*
+rm $DB_SERVERLOG
 rm -rf $DBNAME
 mkdir $DBNAME
 
