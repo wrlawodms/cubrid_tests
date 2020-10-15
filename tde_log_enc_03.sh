@@ -2,10 +2,6 @@
 
 TBNAME=tbl_test
 
-rm -rf $DBNAME
-mkdir $DBNAME
-cd $DBNAME
-cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=20M $DBNAME en_US.utf8
 
 echo "log_compress=0" >> $DBCONF
@@ -29,10 +25,11 @@ echo "logpb_logging_debug=1" >> $DBCONF
 
 # restart for recovery and check
 csql -S -udba -c "select b from $TBNAME where b=1;" $DBNAME
+# EXPECTED: success to restart
 
 # make sure to use archive log page
-set -x
 cat csql.err | egrep -e "logpb_fetch_from_archive" | wc -l 
-set +x
+# EXPECTED: any number larger than 0
+# , which means restart process involves reading archive log.
 
 cubrid deletedb $DBNAME

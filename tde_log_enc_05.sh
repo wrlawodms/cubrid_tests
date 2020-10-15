@@ -2,10 +2,6 @@
 
 TBNAME=tbl_test
 
-rm -rf $DBNAME
-mkdir $DBNAME
-cd $DBNAME
-cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=64M $DBNAME en_US
 
 csql -udba -S -c "create table ${TBNAME} (a char(100)) encrypt;" $DBNAME
@@ -23,7 +19,6 @@ echo "delete ${TBNAME};" >> delete_index.sql
 csql -udba -i pre_build.sql $DBNAME # prepare to build a index
 
 cubrid server stop $DBNAME
-echo "er_log_debug=1" >> $DBCONF
 cubrid server start $DBNAME
 
 for i in {0..20} # one insertion is enough, but for inserting with building index (race)
@@ -45,6 +40,8 @@ cubrid server stop $DBNAME
 
 cat csql.err | egrep "prior_set_tde_encrypted"
 cat $DB_SERVERLOG | grep "prior_set_tde_encrypted"
-# must be able to see RVBT_ONLINE_INDEX_UNDO_TRAN_INSERT, RVBT_ONLINE_INDEX_UNDO_TRAN_DELETE, RVBT_RECORD_MODIFY_NO_UNDO;
+# EXPECTED:
+# must be able to see RVBT_ONLINE_INDEX_UNDO_TRAN_INSERT, RVBT_ONLINE_INDEX_UNDO_TRAN_DELETE, RVBT_RECORD_MODIFY_NO_UNDO in prior_set_tde_encrypted(): rcvindex = XXX
+# Note that it may not happen because it is race condition, you can see it only when inserting during building index online, but you likely to be able to see it in this test case.
 
 cubrid deletedb $DBNAME

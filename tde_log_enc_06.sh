@@ -25,6 +25,7 @@ csql -udba -c "delete ${TBNAME} where a=1;" $DBNAME # RVREPL_DATA_DELETE
 cubrid server stop $DBNAME
 
 cat $DB_SERVERLOG | grep "prior_set_tde_encrypted";
-# must be able to see RVREPL_DATA_INSERT, RVREPL_DATA_UPDATE, RVREPL_DATA_UPDATE_START, RVREPL_DATA_UPDATE_END, RVREPL_DATA_DELETE";
+# EXPECTED
+# must be able to see RVREPL_DATA_INSERT, RVREPL_DATA_UPDATE, RVREPL_DATA_UPDATE_START, RVREPL_DATA_UPDATE_END, RVREPL_DATA_DELETE" in prior_set_tde_encrypted(): rcvindex = XXX ;
 
 cubrid deletedb $DBNAME
