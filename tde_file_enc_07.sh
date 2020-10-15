@@ -2,14 +2,10 @@
 
 TBNAME=tbl_test
 
-mkdir $DBNAME
-cd $DBNAME
-cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=64M $DBNAME ko_KR.utf8
 
 csql -udba -S -c "create table $TBNAME (a char(2000)) encrypt" $DBNAME;
 
-echo "er_log_debug=1" >> $DBCONF
 echo "log_trace_debug=1" >> $DBCONF
 
 cubrid server start $DBNAME
@@ -28,6 +24,7 @@ cubrid server start $DBNAME # must say REDOING: RVPGBUF_SET_TDE_ALGORITHM
 cubrid server stop $DBNAME
 
 cat $DB_SERVERLOG | grep "TDE:" | egrep -e "pgbuf_set_tde_algorithm"
+# EXPECTED:
 # must say "TDE: pgbuf_set_tde_algorithm():.. AES" twice
 # , one of which is generated while normal processing, and the other is generated while recovery processing.
 
