@@ -23,5 +23,6 @@ ps aux | grep $SERVER_PID
 rm ${DBNAME}_keys
 
 cubrid server start ${DBNAME}
+# EXPECTED: failt to restart (fatala error)
 
 cubrid deletedb $DBNAME

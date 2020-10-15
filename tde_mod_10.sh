@@ -2,9 +2,6 @@
 
 TBNAME=tbl_test
 
-mkdir $DBNAME
-cd $DBNAME
-cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=64M $DBNAME ko_KR.utf8
 
 cubrid server start $DBNAME
@@ -17,11 +14,17 @@ csql -udba -c "insert into ${TBNAME}_enc (a) values ('TDE_TEST_ENCRYPT');" $DBNA
 
 cubrid server stop $DBNAME
 
-csql -udba -S -c "select * from ${TBNAME}_enc;" $DBNAME;
-
-set -x
-cat $DBNAME | grep -w "TDE_TEST" # must match
+cat $DBNAME | grep -w "TDE_TEST" 
+# EXPECTED:
+# TDE_TEST is not encrypted,
+# so grep prints "matches"
 cat $DBNAME | grep -w "TDE_TEST_ENCRYPT" # must not match
-set +x
+# EXPECTED:
+# TDE_TEST_ENCRYPT has been encrypted,
+# so grep prints nothing (can't find)
+
+csql -udba -S -c "select * from ${TBNAME}_enc;" $DBNAME;
+# EXPECTED:
+# you can see the encrypted data ('TDE_TEST_ENCRYPT')
 
 cubrid deletedb $DBNAME

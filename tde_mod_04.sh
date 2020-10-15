@@ -1,19 +1,14 @@
 #!/bin/bash
 
-mkdir $DBNAME
-cd $DBNAME
-cubrid deletedb $DBNAME
-
-DESTDIR=`pwd`/keypath
-mkdir $DESTDIR
-cd $DESTDIR
+KEYSDIR=keys
+mkdir $KEYSDIR
 echo "tde_keys_file_path=$DESTDIR" >> $DBCONF
 
-cd -
 cubrid createdb --db-volume-size=128M --log-volume-size=64M $DBNAME ko_KR.utf8
 
-ls $DESTDIR | grep ${DBNAME}_keys
+ls $KEYSDIR | grep ${DBNAME}_keys
+# EXPECTED: you must see the key file
 ls | grep ${DBNAME}_keys
+# EXPECTED: you can't see the key file
 
 cubrid deletedb $DBNAME
-rm -rf $DESTDIR
