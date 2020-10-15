@@ -2,12 +2,6 @@
 
 TBNAME=test_tbl
 
-rm -rf $DBNAME
-mkdir $DBNAME
-cd $DBNAME
-
-cubrid deletedb $DBNAME
-
 cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME en_US
 
 csql -udba -S -c "create table $TBNAME (a int) encrypt" $DBNAME
@@ -20,5 +14,6 @@ rm ${DBNAME}_bk0_keys # restoredb without the _keys file
 cubrid restoredb -k ${DBNAME}_tmp_keys $DBNAME
 
 csql -udba -S -c "select * from $TBNAME" $DBNAME
+# EXPECTED: can see the value 3
 
 cubrid deletedb $DBNAME

@@ -2,11 +2,6 @@
 
 TBNAME=test_tbl
 
-rm -rf $DBNAME
-mkdir $DBNAME
-cd $DBNAME
-
-cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME en_US
 
 mkdir keys
@@ -44,13 +39,11 @@ mkdir keys
 #       and copy the key file as _keys file (as the server key file)
 #     - with tde_keys_file_path (B-2-2)
 
-set -x
-
 echo "################################### (A-1) ###########################################"
 cubrid backupdb -S $DBNAME
 cubrid tde -n $DBNAME # 2
 cubrid restoredb $DBNAME
-cubrid tde -s $DBNAME # must have two keys (not replaced)
+cubrid tde -s $DBNAME # EXPECTED: must have two keys (not replaced)
 
 rm *bk*
 cubrid deletedb $DBNAME
@@ -62,15 +55,15 @@ cubrid backupdb -S $DBNAME
 cubrid tde -c 1 $DBNAME
 cubrid tde -d 0 $DBNAME # 1
 cubrid restoredb -d backuptime $DBNAME 
-cubrid tde -s $DBNAME # the index of the set key has to be 0, and the key file  must have two keys (replaced with the backup key file)
-ls # must show _keys_old
+cubrid tde -s $DBNAME # EXPECTED: the index of the set key has to be 0, and the key file  must have two keys (replaced with the backup key file)
+ls # EXPECTED: must show _keys_old
 
 echo "################################### (A-2-2-1) ###########################################"
 rm ${DBNAME}_keys
 rm ${DBNAME}_keys_old
 cubrid restoredb -d backuptime $DBNAME 
-cubrid tde -s $DBNAME # the index of the set key has to be 0, and the key file  must have two keys (replaced with the backup key file)
-ls # must not show _keys_old
+cubrid tde -s $DBNAME # EXPECTED: the index of the set key has to be 0, and the key file  must have two keys (replaced with the backup key file)
+ls # EXPECTED: must not show _keys_old
 
 rm *bk*
 cubrid deletedb $DBNAME
@@ -83,15 +76,15 @@ cubrid backupdb -S $DBNAME
 cubrid tde -c 1 $DBNAME
 cubrid tde -d 0 $DBNAME # 1
 cubrid restoredb -d backuptime $DBNAME 
-cubrid tde -s $DBNAME # the index of the set key has to be 0, and the key file  must have two keys (replaced with the backup key file)
-ls keys # must show _keys_old
+cubrid tde -s $DBNAME # EXPECTED: the index of the set key has to be 0, and the key file  must have two keys (replaced with the backup key file)
+ls keys # EXPECTED: must show _keys_old
 
 echo "################################### (A-2-2-2) ###########################################"
 rm keys/${DBNAME}_keys
 rm keys/${DBNAME}_keys_old
 cubrid restoredb -d backuptime $DBNAME 
-cubrid tde -s $DBNAME # the index of the set key has to be 0, and the key file  must have two keys (replaced with the backup key file)
-ls keys # must not show _keys_old
+cubrid tde -s $DBNAME # EXPECTED: the index of the set key has to be 0, and the key file  must have two keys (replaced with the backup key file)
+ls keys # EXPECTED: must not show _keys_old
 
 echo "tde_keys_file_path=" >> $DBCONF
 rm *bk*
@@ -110,7 +103,7 @@ cubrid tde -c 3 $DBNAME
 cubrid tde -d 0 $DBNAME
 cubrid tde -d 1 $DBNAME
 cubrid restoredb -d $RESTORE_DATE $DBNAME # but at the time to restore, the set key is 1, the backup key file has only 0, and the server key file has only 2, 3
-cubrid tde -s $DBNAME # must have two keys (2, 3), and 2th key has to be set on the database
+cubrid tde -s $DBNAME # EXPECTED: must have two keys (2, 3), and 2th key has to be set on the database
 
 rm *bk*
 cubrid deletedb $DBNAME
@@ -128,7 +121,7 @@ cubrid tde -c 3 $DBNAME
 cubrid tde -d 2 $DBNAME
 rm ${DBNAME}_keys
 cubrid restoredb -d $RESTORE_DATE $DBNAME # but at the time to restore, the set key is 2, the backup key file has only 0, 1, and the server key file has only 0, 1, 3 (and deleted)
-cubrid tde -s $DBNAME # must have two keys (0, 1), and 0th key has to be set on the database
+cubrid tde -s $DBNAME # EXPECTED: must have two keys (0, 1), and 0th key has to be set on the database
 
 rm *bk*
 cubrid deletedb $DBNAME
@@ -147,7 +140,7 @@ cubrid tde -c 3 $DBNAME
 cubrid tde -d 0 $DBNAME
 cubrid tde -d 1 $DBNAME
 cubrid restoredb -d $RESTORE_DATE $DBNAME # but at the time to restore, the set key is 1, the backup key file has only 0, and the server key file has only 2, 3
-cubrid tde -s $DBNAME # must have two keys (2, 3), and 2th key has to be set on the database
+cubrid tde -s $DBNAME # EXPECTED: must have two keys (2, 3), and 2th key has to be set on the database
 
 rm *bk*
 cubrid deletedb $DBNAME
@@ -166,6 +159,6 @@ cubrid tde -c 3 $DBNAME
 cubrid tde -d 2 $DBNAME
 rm keys/${DBNAME}_keys
 cubrid restoredb -d $RESTORE_DATE $DBNAME # but at the time to restore, the set key is 2, the backup key file has only 0, 1, and the server key file has only 0, 1, 3 (and deleted)
-cubrid tde -s $DBNAME # must have two keys (0, 1), and 0th key has to be set on the database
+cubrid tde -s $DBNAME # EXPECTED: must have two keys (0, 1), and 0th key has to be set on the database
 
 cubrid deletedb $DBNAME

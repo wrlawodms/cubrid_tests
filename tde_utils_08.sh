@@ -3,11 +3,6 @@
 TBNAME=test_tbl
 KEYS_PATH=keys
 
-mkdir $DBNAME
-cd $DBNAME
-
-cubrid deletedb $DBNAME
-
 cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME en_US
 
 # copy the key file to another directory
@@ -19,5 +14,5 @@ ls
 cd ..
 
 cubrid deletedb ${DBNAME}
-ls # check if all the files inclding keys file has been deleted 
-ls $KEYS_PATH # check if copied key file still exists
+ls # EXPECTED: check if all the files inclding keys file has been deleted 
+ls $KEYS_PATH # EXPECTED: check if copied key file still exists
