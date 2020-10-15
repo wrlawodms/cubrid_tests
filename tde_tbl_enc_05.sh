@@ -1,10 +1,6 @@
 #!/bin/bash
 
-mkdir $DBNAME
-cd $DBNAME
-cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME ko_KR.utf8
-
 
 cubrid server start ${DBNAME}
 
@@ -18,9 +14,12 @@ cubrid server stop ${DBNAME}
 rm ${DBNAME}_keys
 
 cubrid server start ${DBNAME}
+# EXPECTED: success to start 
+
 csql -udba -c "insert into a (a) values(4);" ${DBNAME}
 csql -udba -c "select * from a;" ${DBNAME}
 csql -udba -c "update a set a=4 where a=3;" ${DBNAME}
+# EXPECTED: all the statements fail (ERROR: TDE module is not loaded)
 
 cubrid server stop ${DBNAME}
 cubrid deletedb $DBNAME

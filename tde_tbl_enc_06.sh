@@ -1,10 +1,6 @@
 #!/bin/bash
 
-mkdir $DBNAME
-cd $DBNAME
-cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME ko_KR.utf8
-
 
 cubrid server start ${DBNAME}
 
@@ -19,9 +15,9 @@ cubrid server stop ${DBNAME}
 rm ${DBNAME}_keys
 
 cubrid server start ${DBNAME}
+# EXPECTED: success to start
 
-pause
-
+set -x 
 csql -udba -c "alter table a add b int;" ${DBNAME}
 csql -udba -c "alter table a rename a as b;" ${DBNAME}
 csql -udba -c "alter table a modify a bigint;" ${DBNAME}
@@ -39,12 +35,22 @@ csql -udba -c "alter table a drop foreign key fk_y;" ${DBNAME}
 
 csql -udba -c "alter table c drop primary key;" ${DBNAME}
 csql -udba -c "alter table a add index ia(a ASC);" ${DBNAME}
-csql -udba -c "alter table d drop index ia;" ${DBNAME}
-
 csql -udba -c "rename table a as ra;" ${DBNAME}
+# EXPECTED: All the statements above fail (TDE Module is not loaded)
 
-csql -udba -c "alter table a auto_increment=5;" ${DBNAME} # 예외 
+csql -udba -c "alter table d drop index ia;" ${DBNAME}
+# EXPECTED: fails, Your transaction has been aborted by the system??? committed what?
 
+csql -udba -c "alter table a auto_increment=5;" ${DBNAME}
+csql -udba -c "select class_name, current_val from db_serial where class_name='a';" ${DBNAME}
+# EXPECTED: success and you can see the changed value from db_serial
+
+csql -udba -c "show create table a;" ${DBNAME}
+csql -udba -c "show create table b;" ${DBNAME}
+csql -udba -c "show create table c;" ${DBNAME}
+csql -udba -c "show create table d;" ${DBNAME}
+csql -udba -c "show create table e;" ${DBNAME}
+# EXPECTED: nothing has been changed.
 
 cubrid server stop ${DBNAME}
 cubrid deletedb $DBNAME
