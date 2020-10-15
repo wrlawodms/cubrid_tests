@@ -3,9 +3,6 @@
 TBNAME=tbl_test
 SRC_TBNAME=tbl_test_src
 
-mkdir $DBNAME
-cd $DBNAME
-cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=64M $DBNAME ko_KR.utf8
 cubrid server start $DBNAME
 
@@ -15,8 +12,6 @@ csql -udba -c "create table ${SRC_TBNAME} (a int, b int);" $DBNAME;
 csql -udba -c "create table ${SRC_TBNAME}_enc (a int, b int) encrypt;" $DBNAME;
 
 cubrid server stop $DBNAME
-
-echo "er_log_debug=1" >> $DBCONF
 
 cubrid server start $DBNAME
 
@@ -38,6 +33,9 @@ csql -udba -c "merge into ${TBNAME}_enc using ${SRC_TBNAME}_enc on ${TBNAME}_enc
 
 cubrid server stop $DBNAME
 
-cat $DB_SERVERLOG | grep "TDE:" | egrep -e "includes_tde_algorithm "
+cat $DB_SERVERLOG | grep "TDE:" | egrep -e "includes_tde_class "
+# EXPECTED:
+# TDE: xqmgr_execute_query(): includes_tde_class = 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1
+# three 0, nine 1
 
 cubrid deletedb $DBNAME

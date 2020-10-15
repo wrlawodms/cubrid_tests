@@ -5,10 +5,6 @@
 TBNAME=tbl_test
 SRC_TBNAME=tbl_test_src
 
-rm -r $DBNAME
-mkdir $DBNAME
-cd $DBNAME
-cubrid deletedb $DBNAME
 cubrid createdb --db-volume-size=128M --log-volume-size=64M $DBNAME en_US
 
 cubrid server start $DBNAME
@@ -21,13 +17,13 @@ done
 
 cubrid server stop $DBNAME
 
-echo "er_log_debug=1" >> $DBCONF
-
 csql -udba -S -c "select * from ${TBNAME} order by b;" $DBNAME                    # order by
 csql -udba -S -c "select avg(a), b from ${TBNAME} group by b;" $DBNAME            # group by
 csql -udba -S -c "select avg(a) over (partition by b) from ${TBNAME};" $DBNAME    # analytics
 csql -udba -S -c "create index ${TBNAME}_idx on ${TBNAME} (a);" $DBNAME           # load index
 
 cat csql.err | grep "TDE:" | egrep -e "sort_listfile"
+# EXPECTED:
+# TDE: sort_listfile(): tde_encrypted = 1, 1, 1, 1
 
 cubrid deletedb $DBNAME
