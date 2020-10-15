@@ -19,7 +19,12 @@ echo ""
 #set -x
 
 cubrid server stop ${DBNAME}
+cubrid delete $DBNAME
+rm ${DBLOG}/${DBNAME}_*.*
+rm -rf $DBNAME
+mkdir $DBNAME
 
 cp $USINGCONF $DBCONF
+cd $DBNAME
 
-source $TEST
+source ../$TEST
