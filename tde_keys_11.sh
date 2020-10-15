@@ -1,11 +1,8 @@
 #!/bin/bash
 
-mkdir $DBNAME
-cd $DBNAME
-cubrid deletedb $DBNAME
-
 cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME en_US
 
+# EXPECTED: All the commands below fail, which print usage.
 cubrid tde -s -n $DBNAME
 cubrid tde -s -d 0 $DBNAME 
 cubrid tde -s -c 0 $DBNAME
