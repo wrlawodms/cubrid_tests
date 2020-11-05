@@ -19,7 +19,7 @@ echo ""
 #set -x
 
 cubrid server stop ${DBNAME}
-cubrid delete $DBNAME
+cubrid deletedb $DBNAME
 rm ${DBLOG}/${DBNAME}_*.*
 rm $DB_SERVERLOG
 rm -rf $DBNAME
