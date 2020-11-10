@@ -35,7 +35,7 @@ cubrid server stop $DBNAME
 
 cat $DB_SERVERLOG | grep "TDE:" | egrep -e "includes_tde_class "
 # EXPECTED:
-# TDE: xqmgr_execute_query(): includes_tde_class = 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1
+# TDE: qmgr_execute_query(): includes_tde_class = 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1
 # three 0, nine 1
 
 cubrid deletedb $DBNAME

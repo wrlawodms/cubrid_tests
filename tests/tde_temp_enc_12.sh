@@ -15,8 +15,8 @@ echo "er_log_debug=1" >> $DBCONF
 
 cubrid server start $DBNAME
 
-csql -udba -c "delete ${TBNAME} where a = 3" $DBNAME;
-csql -udba -c "delete ${TBNAME}_enc where a = 3" $DBNAME;
+csql -udba -c "do (select * from ${TBNAME})" $DBNAME;
+csql -udba -c "do (select * from ${TBNAME}_enc)" $DBNAME;
 
 cubrid server stop $DBNAME
 
