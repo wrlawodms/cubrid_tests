@@ -15,9 +15,10 @@ csql -udba -S -c "insert into ${TBNAME}_enc (a) values ('TDE_TEST_ENCRYPT');" $D
 echo "--------------------- Mark tde-encrpytion ----------------------"
 cat csql.err | egrep -e "logpb_start_append|logpb_next_append_page" | grep "tde"
 echo "--------------------- Encrpytion while flushing  ----------------------"
-cat csql.err | egrep -e "logpb_writev_append_pages|logpb_write_page_to_disk"  | grep "tde"
+cat csql.err | egrep -e "logpb_writev_append_pages|logpb_write_page_to_disk|logpb_write_toflush_pages_to_archive"  | grep "tde"
 # EXPECTED:
 # the logical page id of pages marked as encrypted and thet of the pages encrypted when flushing
-# must match
+# must match.
+# So do logpb_write_toflush_pages_to_archive() if it is called.
 
 cubrid deletedb $DBNAME
