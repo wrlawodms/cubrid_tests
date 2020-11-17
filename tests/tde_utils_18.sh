@@ -21,8 +21,10 @@ rm ${DBNAME}_keys
 
 # Priority:
 # 1) The key file given as the option, -k
-# 2) The key file in the backup volume
-#     - If it is an incremental backup, the key file of highest volume is used
+#   1.a) if key file doesn't exit -> failure
+#   1.b) if key file isn't valid -> failure
+# 2.1) The key file in the backup volume
+#     2.2) If it is an incremental backup, the key file of highest volume is used
 # 3) The backup key file out of the backup volume (_bk{level}_keys)
 # 4) the key file set in the cubrid.conf (tde_keys_file_path)
 # 5) the key file on the deafult path ({database_name}_keys)
@@ -30,8 +32,11 @@ rm ${DBNAME}_keys
 # Note 1: The number of keys in the key file is used to identify the key file
 # Note 2: After restoredb, if the default key file doesn't have the proper key to decrypt database, the key file used for restoredb become the default key file, otherwise the default key file is kept.
 
-cubrid restoredb -k ${DBNAME}_tmp_keys $DBNAME # 1.1) check if _tmp_keys are used even though a key file is included in backup file
+cubrid restoredb -k ${DBNAME}_tmp_keys $DBNAME # 1) check if _tmp_keys are used even though a key file is included in backup file
 cubrid tde -s $DBNAME   # EXPECTED: must have one key
+
+cubrid restoredb -k NOEXIST $DBNAME # 1.a) failure - keys file not found
+cubrid restoredb -k ${DBNAME} $DBNAME # 1.b) failure - invalid keys file
 
 rm ${DBNAME}_keys
 cubrid restoredb $DBNAME # 2.1) check if the restored key file in the level 0 backup volume is used. (_bk0_keys)
@@ -46,10 +51,6 @@ rm *bk*
 cubrid tde -n $DBNAME # 4
 
 cubrid backupdb -S -k $DBNAME # do not include key file in the backup volume
-
-rm ${DBNAME}_keys
-cubrid restoredb -k ${DBNAME}_tmp_keys $DBNAME # 1.2) check if _tmp_keys are used
-cubrid tde -s $DBNAME # EXPECTED: must have one key
 
 rm ${DBNAME}_keys
 cubrid restoredb $DBNAME # 3) check if separated key is used. (_bk0_keys)
