@@ -8,8 +8,8 @@ cp ${DBNAME}_tmp_keys ${DBNAME}_keys
 cubrid server start ${DBNAME}
 # EXPECTED: succeed to start server
 
-cat $DB_SERVERLOG | egrep -A1 "\-1254|\-1249"
-# EXPECTED: can see the 1249, 1254 error (Cannot load TDE module)
+cat $DB_SERVERLOG | egrep -A1 -e "-1250,|-1255,"
+# EXPECTED: can see the 1250, 1255 error (Cannot load TDE module)
 
 cubrid server stop ${DBNAME}
 

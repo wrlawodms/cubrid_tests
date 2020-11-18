@@ -7,8 +7,8 @@ rm ${DBNAME}_keys
 cubrid server start ${DBNAME}
 # EXPECTED: succeed to start server
 
-cat $DB_SERVERLOG | egrep -A1 "\-10|\-1254"
-# EXPECTED: can see the 10, 1254 error (Cannot load TDE module)
+cat $DB_SERVERLOG | egrep -A1 -e "-10,|-1255,"
+# EXPECTED: can see the 10, 1255 error (Cannot load TDE module)
 
 cubrid server stop ${DBNAME}
 cubrid deletedb $DBNAME
