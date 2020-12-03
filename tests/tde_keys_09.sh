@@ -8,7 +8,7 @@ cubrid server start $DBNAME
 
 mv ${DBNAME}_tmp_keys ${DBNAME}_keys
 
-cubrid tde -C -s $DBNAME
+cubrid tde --CS-mode -s $DBNAME
 # EXPECTED: 
 # In The current key set on testdb SECTION: TDE Moudle is not loaded.
 # In the below, success to print key info in the key file
