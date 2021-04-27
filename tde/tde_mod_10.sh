@@ -14,6 +14,7 @@ csql -udba -c "insert into ${TBNAME}_enc (a) values ('TDE_TEST_ENCRYPT');" $DBNA
 
 cubrid server stop $DBNAME
 
+set -x
 cat $DBNAME | grep -w "TDE_TEST" 
 # EXPECTED:
 # TDE_TEST is not encrypted,
@@ -22,6 +23,8 @@ cat $DBNAME | grep -w "TDE_TEST_ENCRYPT" # must not match
 # EXPECTED:
 # TDE_TEST_ENCRYPT has been encrypted,
 # so grep prints nothing (can't find)
+
+set +x
 
 csql -udba -S -c "select * from ${TBNAME}_enc;" $DBNAME;
 # EXPECTED:

@@ -15,7 +15,7 @@ done
 
 csql -udba -c "drop table $TBNAME" $DBNAME;
 
-csql -udba -c "create table $TBNAME (a char(2000))" $DBNAME;
+csql -udba -c "create table $TBNAME (a char(2000)) dont_reuse_oid" $DBNAME;
 cat $DB_SERVERLOG | grep "TDE:" | egrep -e "file_apply_tde_algorithm|pgbuf_set_tde_algorithm"
 # EXPECTED: the number of pgbuf_set_tde_algorithm() after file_apply_tde_algorithm() (NONE) is the same as the number of user pages (5)
 

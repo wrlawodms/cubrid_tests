@@ -12,6 +12,8 @@ mkdir $COPY_DBNAME
 cd $COPY_DBNAME
 cubrid copydb $DBNAME $COPY_DBNAME
 
+ls
+
 csql -udba -S -c "select class_name, tde_algorithm from db_class where class_name='$TBNAME'" $COPY_DBNAME # EXPECTED: the tde_algorithm = AES
 csql -udba -S -c "select * from $TBNAME" $COPY_DBNAME # EXPECTED: it can access encrypted table
 

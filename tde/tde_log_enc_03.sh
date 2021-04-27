@@ -11,6 +11,8 @@ SERVER_PID=`pgrep -u $USER -f "$DBNAME$"`
 
 csql -udba -c "create table ${TBNAME} (a char(1048576), b int) encrypt" $DBNAME; # 1M
 
+echo "logpb_logging_debug=1" >> $DBCONF
+
 # inserting until generating archive log
 for i in {1..5}
 do
@@ -20,8 +22,6 @@ done
 ps aux | grep $SERVER_PID
 kill -9 $SERVER_PID
 sleep 2
-
-echo "logpb_logging_debug=1" >> $DBCONF
 
 # restart for recovery and check
 csql -S -udba -c "select b from $TBNAME where b=1;" $DBNAME

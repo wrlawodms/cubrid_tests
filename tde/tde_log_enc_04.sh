@@ -4,6 +4,8 @@ TBNAME=tbl_test
 
 cubrid createdb --db-volume-size=128M --log-volume-size=64M $DBNAME en_US
 
+set -x
+
 csql -udba -S -c "create table ${TBNAME} (a int) encrypt;" $DBNAME
 csql -udba -S -c "create table ${TBNAME}_uni (a int primary key) encrypt;" $DBNAME
 csql -udba -S -c "create table ${TBNAME}_big (a char (20000)) encrypt;" $DBNAME

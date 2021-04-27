@@ -15,8 +15,8 @@ csql -udba -S -c "insert into ${TBNAME}(a) values (' ');" $DBNAME;
 echo "temp_file_memory_size_in_pages=1" >> $DBCONF
 
 cubrid server start $DBNAME
-csql -udba -c "select * from ${TBNAME}_aes" $DBNAME
-csql -udba -c "select * from ${TBNAME}" $DBNAME
+csql -udba -o /dev/null -c "select * from ${TBNAME}_aes" $DBNAME
+csql -udba -o /dev/null -c "select * from ${TBNAME}" $DBNAME
 cubrid server stop $DBNAME
 
 cat $DB_SERVERLOG | grep "TDE:" | egrep -e "file_alloc"
