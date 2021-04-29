@@ -15,6 +15,6 @@ cubrid server stop $DBNAME
 # 1. the first truncate fails with "ERROR: Cannot truncate the table due to the primary key referred to on fk_child_a. Try again with CASCADE option."
 # 2. the first select count(*) prints 1
 # 3. the second truncate succeeds
-# 4. the first select count(*) prints 0
+# 4. the second selects count(*) prints 0,0
 
 cubrid deletedb $DBNAME
