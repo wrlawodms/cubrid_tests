@@ -31,7 +31,7 @@ cubrid diagdb -d4 $DBNAME | grep -A3 -e "tbl"
 # expected1: all 0 Key count except for pk_tbl3_a which has one key.
 
 # Descripttion:
-# DML and DDL after TRUNCATE
+# All index records are removed after TRUNCATE even if a index can't be dropped
 
 # Expected:
 # no error and 1 expected results. See a comment above
