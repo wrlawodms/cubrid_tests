@@ -16,6 +16,4 @@ cubrid server stop $DBNAME
 # Expected:
 # 1. The TRUNCATE succeeds, and follwing select count(*) print 0
 
-# Note:
-# - It will succeed after the followed "truncating by destroying heap" issued is done. Only with [CBRD-23916], it makes an unexpected result.
 cubrid deletedb $DBNAME

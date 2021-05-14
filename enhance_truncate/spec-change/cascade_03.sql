@@ -6,7 +6,7 @@ insert into a values (3, 3);
 insert into b values (3, 3);
 insert into c values (3, 3);
 
-alter table a add constraint foreign key (c) references c(c);
+alter table a add constraint foreign key (c) references c(c) on delete cascade;
 
 truncate a cascade;
 select count(*) from a;
