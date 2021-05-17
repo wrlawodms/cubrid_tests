@@ -18,7 +18,7 @@ csql -udba -c "truncate tbl2 cascade" $DBNAME
 
 cubrid server stop $DBNAME
 
-echo "---------- Expected 1: all 0 Key count except for pk_tbl3_a -----------"
+echo "---------- Expected 1: all 0 Key count -----------"
 cubrid diagdb -d4 $DBNAME | grep -A3 -e "tbl" 
 # expected1: all 0 Key count
 
