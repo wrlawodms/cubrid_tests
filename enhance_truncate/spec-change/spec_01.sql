@@ -1,24 +1,37 @@
-create table parent (a int);
-insert into parent values(3);
-truncate parent;
-select count(*) from parent;
-drop parent;
+create table tbl (a int);
+insert into tbl values(3);
+truncate tbl;
+select count(*) from tbl;
+drop tbl;
 
-create table parent (a int primary key);
-insert into parent values(3);
-truncate parent;
-select count(*) from parent;
-drop parent;
+create table tbl (a int primary key);
+insert into tbl values(3);
+truncate tbl;
+select count(*) from tbl;
+drop tbl;
 
-create table parent (a int);
-insert into parent values(3);
-truncate parent cascade;
-select count(*) from parent;
-drop parent;
+create table tbl (a int primary key);
+alter table tbl add column b int references tbl(a);
+insert into tbl values(3,3);
+truncate tbl;
+select count(*) from tbl;
+drop tbl;
 
-create table parent (a int primary key);
-insert into parent values(3);
-truncate parent cascade;
-select count(*) from parent;
-drop parent;
+create table tbl (a int);
+insert into tbl values(3);
+truncate tbl cascade;
+select count(*) from tbl;
+drop tbl;
 
+create table tbl (a int primary key);
+insert into tbl values(3);
+truncate tbl cascade;
+select count(*) from tbl;
+drop tbl;
+
+create table tbl (a int primary key);
+alter table tbl add column b int references tbl(a);
+insert into tbl values(3,3);
+truncate tbl cascade;
+select count(*) from tbl;
+drop tbl;
