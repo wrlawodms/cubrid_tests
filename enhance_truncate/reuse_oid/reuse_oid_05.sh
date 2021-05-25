@@ -12,13 +12,17 @@ csql -udba -S -i reuse_oid_05.sql $DBNAME
 VFIDS_AFTER=`cubrid diagdb -d1 $DBNAME | grep -B 13 "tbl" | grep vfid`
 
 # Expected 1: these two below have to be same"
+echo "== Expected 1: these two below have to be same =="
 echo "Previous VFIDs: $VFIDS_BEFORE" 
 echo "Current VFIDs: $VFIDS_AFTER"
 
+echo "== Expected 2: only one record : a=0 =="
 csql -udba -S -c "select * from tbl" $DBNAME # Expected 2: only one record : a=0
 
 csql -udba -S -c "create table tbl2 under tbl" $DBNAME # In this case, index is not dropped.
 csql -udba -S -i reuse_oid_05.sql $DBNAME
+
+echo "== Expected 3: only one record : a=0 =="
 csql -udba -S -c "select * from tbl" $DBNAME # Expected 3: only one record : a=0
 
 # Descripttion:
