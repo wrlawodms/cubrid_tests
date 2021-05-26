@@ -9,7 +9,7 @@ csql -udba -c "create table tbl1 (a int primary key)" $DBNAME
 csql -udba -c "insert into tbl1 values (3)" $DBNAME
 csql -udba -c "truncate tbl1" $DBNAME
 
-# Case 2: an undoppable PK referred to by a FK. 
+# Case 2: a doppable PK referred to by a FK. 
 csql -udba -c "create table tbl2 (a int primary key)" $DBNAME
 csql -udba -c "create table tbl2_FK (a int foreign key references tbl2(a) on delete cascade, b int primary key)" $DBNAME
 csql -udba -c "insert into tbl2 values (3)" $DBNAME
