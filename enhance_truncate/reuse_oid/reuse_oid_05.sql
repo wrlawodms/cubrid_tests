@@ -1,13 +1,13 @@
 ;auto off
-truncate tbl;
+truncate tbl cascade;
 insert into tbl values (1);
-truncate tbl;
+truncate tbl cascade;
 insert into tbl values (2);
 rollback;
-truncate tbl;
+truncate tbl cascade;
 insert into tbl values (3);
-truncate tbl;
+truncate tbl cascade;
 insert into tbl values (4);
-truncate tbl;
+truncate tbl cascade;
 insert into tbl values (5);
 rollback;

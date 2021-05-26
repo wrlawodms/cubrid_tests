@@ -3,7 +3,9 @@
 cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME en_US
 
 csql -udba -S -c "create table tbl (a int primary key)" $DBNAME
+csql -udba -S -c "create table tbl2 (a int foreign key references tbl(a) on delete cascade)" $DBNAME
 csql -udba -S -c "insert into tbl values (0)" $DBNAME
+csql -udba -S -c "insert into tbl2 values (0)" $DBNAME
 
 VFIDS_BEFORE=`cubrid diagdb -d1 $DBNAME | grep -B 13 "tbl" | grep vfid` 
 
