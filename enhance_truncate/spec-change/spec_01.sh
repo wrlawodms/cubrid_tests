@@ -10,7 +10,7 @@ csql -udba -i spec_01.sql $DBNAME
 cubrid server stop $DBNAME
 
 # Descripttion:
-# NO FK cases ane self-referencing case
+# NO FK cases and self-referencing case
 
 # Expected:
 # 1. all statements succeeds

@@ -6,13 +6,13 @@ csql -udba -S -c "create table tbl (a int) partition by hash (a) partitions 2" $
 
 csql -udba -S -c "insert into tbl values(3)" $DBNAME
 echo "-------Expected 1: count(*): 1 -------"
-csql -udba -S -c "select * from tbl" $DBNAME # Expected 1: 1
+csql -udba -S -c "select count(*) from tbl" $DBNAME # Expected 1: 1
 
 cubrid diagdb -d1 $DBNAME > ${DBNAME}_diag_d1_1
 
 csql -udba -S -c "truncate tbl" $DBNAME
 echo "-------Expected 2: count(*): 0 -------"
-csql -udba -S -c "select * from tbl" $DBNAME  # Expected 2: 0 
+csql -udba -S -c "select count(*) from tbl" $DBNAME  # Expected 2: 0 
 
 cubrid diagdb -d1 $DBNAME > ${DBNAME}_diag_d1_2
 

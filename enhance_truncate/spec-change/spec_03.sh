@@ -4,6 +4,10 @@ cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME en_US
 
 cubrid server start $DBNAME
 
+echo "***** Expected 1: the fisrt TRUNCATE fails *****"
+echo "***** Expected 2: the fisrt SELECT prints 1 *****"
+echo "***** Expected 3: the second TRUNCATE suceeds *****"
+echo "***** Expected 4: the following SELECT all prints 0 *****"
 csql -udba -i spec_03.sql $DBNAME
 
 cubrid server stop $DBNAME
