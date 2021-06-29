@@ -4,9 +4,9 @@ cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME en_US
 
 cubrid server start $DBNAME
 
+csql -udba -i spec_02.sql $DBNAME
 echo " == Expected: all truncation fail and all select count(*) = 1) == "
 echo " == error msgs is printed alternately == "
-csql -udba -i spec_02.sql $DBNAME
 
 cubrid server stop $DBNAME
 

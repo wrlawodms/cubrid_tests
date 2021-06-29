@@ -4,8 +4,8 @@ cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME en_US
 
 cubrid server start $DBNAME
 
-echo "---------- EXPECTED: all statements succeed, and prints 0 ------"
 csql -udba -i spec_01.sql $DBNAME
+echo "---------- EXPECTED: all statements succeed, and prints 0 ------"
 
 cubrid server stop $DBNAME
 
