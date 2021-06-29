@@ -9,7 +9,7 @@ csql -udba -S -c "insert into tbl2 values (0)" $DBNAME
 
 VFIDS_BEFORE=`cubrid diagdb -d1 $DBNAME | grep -B 13 "tbl" | grep vfid` 
 
-csql -udba -S -i reuse_oid_05.sql $DBNAME
+csql -udba -S -i dont_reuse_oid_05.sql $DBNAME
 
 VFIDS_AFTER=`cubrid diagdb -d1 $DBNAME | grep -B 13 "tbl" | grep vfid`
 
