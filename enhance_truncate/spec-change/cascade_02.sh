@@ -4,8 +4,11 @@ cubrid createdb --db-volume-size=128M --log-volume-size=128M $DBNAME en_US
 
 cubrid server start $DBNAME
 
-echo "***** Expected: The TRUNCATE fails, and follwing select count(*) print 1 *****"
 csql -udba -i cascade_02.sql $DBNAME
+
+echo ""
+echo "***** Expected: The TRUNCATE fails, and follwing select count(*) print 1 *****"
+echo ""
 
 cubrid server stop $DBNAME
 

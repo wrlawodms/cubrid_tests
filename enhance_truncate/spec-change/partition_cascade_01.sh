@@ -6,6 +6,9 @@ cubrid server start $DBNAME
 
 csql -udba -i partition_cascade_01.sql $DBNAME
 
+echo "=== Expected1: The first TRUNCATE fails, and follwing select count(*) print 4 ==="
+echo "=== The second TRUNCATE succeeds, and follwing select count(*) print 0 ==="
+
 cubrid server stop $DBNAME
 
 # Descripttion:

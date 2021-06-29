@@ -6,6 +6,11 @@ cubrid server start $DBNAME
 
 csql -udba -i partition_cascade_02.sql $DBNAME
 
+echo ""
+echo "*** Expected 1: the truncate fails, and follwing select count(*) print 4 ***"
+echo "*** - error: cannot cascade truncate because the on delete action of the foreign key (fk_grand_child2_b) is not set to cascade. ***"
+echo ""
+
 cubrid server stop $DBNAME
 
 # Descripttion:
@@ -14,6 +19,6 @@ cubrid server stop $DBNAME
 #            L C <- G, H
 
 # Expected:
-# 1. The TRUNCATE fails, and follwing select count(*) print 4
-#     - ERROR: Cannot cascade truncate because the ON DELETE action of the foreign key (fk_grand_child2_b) is not set to CASCADE.
+# 1. the truncate fails, and follwing select count(*) print 4
+#     - error: cannot cascade truncate because the on delete action of the foreign key (fk_grand_child2_b) is not set to cascade.
 cubrid deletedb $DBNAME
