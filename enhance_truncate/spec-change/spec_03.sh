@@ -7,7 +7,7 @@ cubrid server start $DBNAME
 csql -udba -i spec_03.sql $DBNAME
 echo "***** Following expected results (1~4) repeat 7 times *****"
 echo "***** Expected 1: the fisrt TRUNCATE fails *****"
-echo "***** Expected 2: the fisrt SELECT prints >1 *****"
+echo "***** Expected 2: the fisrt SELECT prints >= 1 *****"
 echo "***** Expected 3: the second TRUNCATE succeeds *****"
 echo "***** Expected 4: the following SELECT all prints 0 *****"
 
