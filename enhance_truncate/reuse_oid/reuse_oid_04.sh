@@ -7,9 +7,11 @@ cubrid server start $DBNAME
 csql -udba -c "create table tbl (a int primary key)" $DBNAME
 csql -udba -i reuse_oid_04.sql $DBNAME
 
-cubrid server stop $DBNAME
+echo ""
+echo "** Expected: Total obejcts = 1 from the last ';info stats' and not the epoch timestamp"
+echo ""
 
-# expected1: all 0 Key count except for pk_tbl3_a which has one key.
+cubrid server stop $DBNAME
 
 # Descripttion:
 # statistics for the truncated class has to be initialized properly.
