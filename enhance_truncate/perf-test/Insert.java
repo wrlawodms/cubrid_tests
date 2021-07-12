@@ -4,8 +4,9 @@ public class Insert {
 
 	static private int PortID = 5333;
 	static private String DBName = "tdb";
-	static private int totalTupCnt = 1024*1024*8;
-	static private int numThread = 16;
+	static private String tableName = "t1";
+	static private int totalRecCnt = 1024*1024*8;
+	static private int numThread = 40;
         static private int recSize = 100;
 
 	public static void main(String[] args) throws SQLException {
@@ -18,7 +19,12 @@ public class Insert {
 		}
 
 		Insert.DBName = args[0];
-		Insert.PortID = Integer.valueOf(args[1]);
+		Insert.tableName = args[1];
+		Insert.PortID = Integer.valueOf(args[2]);
+		Insert.recSize = Integer.valueOf(args[3]);
+		Insert.totalRecCnt = Integer.valueOf(args[4]);
+		
+                InsertThread.tableName = tableName;
 
 		Connection conn;
                 PreparedStatement pstmt = null;
@@ -27,7 +33,7 @@ public class Insert {
 		try {
 			for (int i = 0; i < numThread; i++) {
 				conn = getConnection();
-				thread[i] = new Thread(new InsertThread(conn, i, totalTupCnt/numThread));
+				thread[i] = new Thread(new InsertThread(conn, i, totalRecCnt/numThread));
 				thread[i].start();
 			}
 
@@ -56,6 +62,7 @@ class InsertThread implements Runnable {
 	Connection conn;
 	int tid;
         int tup_cnt;
+	static String tableName = "t1";
 
 	public InsertThread(Connection conn, int i, int tup_cnt) {
 		this.conn = conn;
