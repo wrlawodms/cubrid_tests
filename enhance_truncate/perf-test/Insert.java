@@ -25,6 +25,11 @@ public class Insert {
 		Insert.totalRecCnt = Integer.valueOf(args[4]);
 		
                 InsertThread.tableName = tableName;
+                
+                if (totalRecCnt < 1000)
+                {   
+                  numThread=1;
+                }  
 
 		Connection conn;
                 PreparedStatement pstmt = null;
