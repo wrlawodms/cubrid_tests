@@ -34,7 +34,7 @@ cubrid broker start
 #set -e
 
 # start
-for RECNUM in 10000 100000 1000000 10000000
+for RECNUM in 100 10000 1000000 100000000
 do
   _DBNAME=${DBNAME}_`numfmt --to si --format "%f" ${RECNUM}`
   echo "Populating ${_DBNAME}"

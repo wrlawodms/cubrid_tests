@@ -5,7 +5,7 @@ if [ -z $DBNAME ]; then
   exit 1
 fi
 
-for RECNUM in 10000 100000 1000000 10000000
+for RECNUM in 100 10000 1000000 100000000
 do
   _DBNAME=${DBNAME}_`numfmt --to si --format "%f" ${RECNUM}`
   cubrid deletedb $_DBNAME
