@@ -47,9 +47,9 @@ do
   cubrid server start $_DBNAME
 
   if [ "$HAS_PK" = "0" ]; then
-    csql -udba -c "create table ${TBNAME} (a int)" $_DBNAME
+    csql -udba -c "create table ${TBNAME} (a char(${RECSIZE}))" $_DBNAME
   else
-    csql -udba -c "create table ${TBNAME} (a int primary key)" $_DBNAME
+    csql -udba -c "create table ${TBNAME} (a char(${RECSIZE}) primary key)" $_DBNAME
   fi
   
   java -cp $CUBRID/jdbc/cubrid_jdbc.jar:. Insert $_DBNAME t1 33000 $RECSIZE $RECNUM
