@@ -7,7 +7,7 @@ fi
 
 for RECNUM in 10000 100000 1000000 10000000
 do
-  _DBNAME=${DBNAME}_${RECNUM}
+  _DBNAME=${DBNAME}_`numfmt --to si --format "%f" ${RECNUM}`
   cubrid deletedb $_DBNAME
   rm -rf $_DBNAME
 done
