@@ -34,7 +34,7 @@ cubrid broker start
 #set -e
 
 # start
-for RECNUM in 100 10000 1000000 100000000
+for RECNUM in 100000 1000000 10000000 100000000
 do
   _DBNAME=${DBNAME}_`numfmt --to si --format "%f" ${RECNUM}`
   echo "Populating ${_DBNAME}"
@@ -42,7 +42,6 @@ do
   
   cd $_DBNAME
   cubrid createdb $_DBNAME en_US
-  cd ..
   
   cubrid server start $_DBNAME
 
@@ -52,9 +51,12 @@ do
     csql -udba -c "create table ${TBNAME} (a char(${RECSIZE}) primary key)" $_DBNAME
   fi
   
-  java -cp $CUBRID/jdbc/cubrid_jdbc.jar:. Insert $_DBNAME t1 33000 $RECSIZE $RECNUM
+  java -cp $CUBRID/jdbc/cubrid_jdbc.jar:.. Insert $_DBNAME t1 33000 $RECSIZE $RECNUM
+
+  cubrid backupdb -S $_DBNAME
+  cubrid diagdb -d3 $_DBNAME > diag.d3 
   
   cubrid server stop $_DBNAME
-  
+  cd ..
 done
 
