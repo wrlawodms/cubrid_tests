@@ -29,9 +29,9 @@ echo "DB_NAME=$DBNAME TB_NAME=$TBNAME warm-up=$WARMUP commit=$COMMIT"
 
 cubrid --version
 
+set -x
 cubrid server start $DBNAME
 
-set -x
 # 1. warm-up
 if [ $WARMUP != 0 ]; then
   csql -udba -c "select count(*) from t1" $DBNAME;
