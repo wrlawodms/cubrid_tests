@@ -7,13 +7,17 @@ if [ -z $DBNAME ]; then
 fi
 
 DATE=`date "+%Y%m%d-%H%M%S"`
-EXP1_RESULT="exp1_${DATE}.result"
+RESULTS_DIR="results"
+EXP1_RESULT="${RESULTS_DIR}/exp1_${DATE}.result"
 touch $EXP1_RESULT 
 
-for RECNUM in 100000 1000000 # 10000000 100000000
+for RECNUM in 100000 1000000 #10000000 #100000000
 do
   _DBNAME=${DBNAME}_`numfmt --to si --format "%f" ${RECNUM}`
 
   # exp1
   ./exp1.sh $_DBNAME >> $EXP1_RESULT
 done
+
+echo "========= SUCCESS ==========="
+echo "========= result: ${EXP1_RESULT} ==========="

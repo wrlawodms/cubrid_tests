@@ -33,15 +33,15 @@ set -x
 cubrid server start $DBNAME
 
 # 1. warm-up
-if [ $WARMUP != 0 ]; then
+if [ "$WARMUP" -ne 0 ]; then
   csql -udba -c "select count(*) from t1" $DBNAME;
 fi
 
 # 2. truncate
-if [ $COMMIT != 0 ]; then
-  csql -udba -i truncate_nocommit.sql $DBNAME
-else
+if [ "$COMMIT" -ne 0 ]; then
   csql -udba -i truncate_commit.sql $DBNAME
+else
+  csql -udba -i truncate_nocommit.sql $DBNAME
 fi
 
 cubrid server stop $DBNAME
