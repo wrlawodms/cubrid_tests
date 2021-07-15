@@ -19,6 +19,8 @@ else
   echo "Can't find ${BKVOLUME}"
 fi
 
+set +e
 rm $DBNAME
 rm ${DBNAME}_lg*
+set -e
 cubrid restoredb -d backuptime $DBNAME

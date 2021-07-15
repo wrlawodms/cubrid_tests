@@ -25,8 +25,17 @@ echo "DB_NAME=$DBNAME TB_NAME=$TBNAME warm-up=$WARMUP commit=$COMMIT"
 
 cubrid --version
 
+cp cubrid.conf $CUBRID/conf/cubrid.conf
+
+echo "------------- buffers in cubrid.conf ------------"
+cubrid paramdump -S tdb10M | grep -e "buffer"
+echo "-------------------------------------------------"
+
 set -x
 cubrid server start $DBNAME
+
+# 0. wait for db to get stable
+sleep 30
 
 # 1. warm-up
 if [ "$WARMUP" -ne "0" ]; then
@@ -39,5 +48,7 @@ if [ "$COMMIT" -ne "0" ]; then
 else
   csql -udba -i truncate_nocommit.sql $DBNAME
 fi
+
+csql -udba -c "select count(*) from t1" $DBNAME;
 
 cubrid server stop $DBNAME
