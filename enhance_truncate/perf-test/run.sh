@@ -74,7 +74,7 @@ echo "=============================exp8-1============================="
 echo "================================================================"
 for CAT_RECNUM in 1000 100000 10000000 # 1K 100K 1M
 do
-  _DBNAME=${DBNAME}_100M_DR_`numfmt --to si --format "%f" ${CAT_RECNUM}`
+  _DBNAME=${DBNAME}_DR_100M_`numfmt --to si --format "%f" ${CAT_RECNUM}`
   
   ./exp_w_c.sh $_DBNAME $TRYCNT >> $EXP_RESULT
 done
@@ -83,7 +83,7 @@ done
 echo "================================================================"
 echo "=============================exp8-2=============================="
 echo "================================================================"
-_DBNAME=${DBNAME}_100M_PK_IH # Inheritance
+_DBNAME=${DBNAME}_PK_IH_100M # Inheritance
 ./exp_w_c.sh $_DBNAME $TRYCNT >> $EXP_RESULT
 
 echo "========= SUCCESS ==========="
