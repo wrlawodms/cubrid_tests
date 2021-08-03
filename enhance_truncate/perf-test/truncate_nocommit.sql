@@ -1,2 +1,2 @@
 ;auto off
-truncate t1;
+truncate t1 cascade;
