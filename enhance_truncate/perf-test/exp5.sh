@@ -25,11 +25,12 @@ do
   echo "========= exp5.sh tt try = $i ==============="
   # 1. truncate warm-up commit
   ./truncate.sh $DBNAME 1 1
-  cubrid server stop $DBNAME
-  echo ""
+
   cubrid checkdb -S $DBNAME # to vacuum
+  echo ""
   cat $CUBRID/log/${DBNAME}_checkdb.err | grep -B1 "Stand-alone vacuum execution"
   echo ""
+
   # 2. restore
   ./restore.sh $DBNAME
 done
@@ -43,11 +44,12 @@ do
   echo "========= exp5.sh develop try = $i ==============="
   # 1. truncate warm-up commit
   ./truncate.sh $DBNAME 1 1
-  cubrid server stop $DBNAME
-  echo ""
+
   cubrid checkdb -S $DBNAME # to vacuum
+  echo ""
   cat $CUBRID/log/${DBNAME}_checkdb.err | grep -B1 "Stand-alone vacuum execution"
   echo ""
+  
   # 2. restore
   ./restore.sh $DBNAME
 done
