@@ -24,7 +24,7 @@ for i in $(seq "$TRYCNT")
 do
   echo "========= exp_wc.sh tt try = $i ==============="
   # 1. truncate warm-up commit
-  ./truncate.sh $DBNAME 1 1
+  ./truncate_cascade.sh $DBNAME 1 1
   # 2. restore
   ./restore.sh $DBNAME
 done

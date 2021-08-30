@@ -21,6 +21,7 @@ fi
 
 set +e
 rm $DBNAME
+rm ${DBNAME}_x*
 rm ${DBNAME}_lg*
 set -e
 cubrid restoredb -d backuptime $DBNAME

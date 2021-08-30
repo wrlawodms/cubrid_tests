@@ -48,9 +48,9 @@ fi
 
 # 2. truncate
 if [ "$COMMIT" -ne "0" ]; then
-  csql -udba -i truncate_commit.sql $DBNAME
+  csql -udba -i truncate_commit_cascade.sql $DBNAME
 else
-  csql -udba -i truncate_nocommit.sql $DBNAME
+  csql -udba -i truncate_nocommit_cascade.sql $DBNAME
 fi
 
 csql -udba -c "select count(*) from t1" $DBNAME;

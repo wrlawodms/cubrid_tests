@@ -26,6 +26,7 @@ do
   # 1. truncate warm-up commit
   ./truncate.sh $DBNAME 1 1
 
+  rm $CUBRID/log/${DBNAME}_checkdb.err
   cubrid checkdb -S $DBNAME # to vacuum
   echo ""
   cat $CUBRID/log/${DBNAME}_checkdb.err | grep -B1 "Stand-alone vacuum execution"
@@ -45,6 +46,7 @@ do
   # 1. truncate warm-up commit
   ./truncate.sh $DBNAME 1 1
 
+  rm $CUBRID/log/${DBNAME}_checkdb.err
   cubrid checkdb -S $DBNAME # to vacuum
   echo ""
   cat $CUBRID/log/${DBNAME}_checkdb.err | grep -B1 "Stand-alone vacuum execution"
